@@ -1,31 +1,32 @@
 <script setup>
-import DeviceInfo from "@/components/headers/info.vue"
-import DeviceItem from "@/components/todo/list.vue"
+import todoInfo from "@/components/headers/info.vue"
+import todoItem from "@/components/todo/list.vue"
 import { v4 as uuidv4 } from "uuid"
 import { ref, reactive, onBeforeMount } from "vue"
 
-const device = ref("")
-const devices = reactive([])
+const todo = ref("")
+const todos = reactive([])
 
-const addDevice = () => {
-  if (device.value !== "") {
-    console.log(device.value)
+const addtodo = () => {
+  if (todo.value !== "") {
+    console.log(todo.value)
     const item = {
       id: uuidv4(),
-      title: device.value,
+      title: todo.value,
+      completed: false,
     }
-    devices.unshift(item)
-    console.log(devices)
-    device.value = ""
+    todos.unshift(item)
+    console.log(todos)
+    todo.value = ""
   }
 }
 
 const removeItem = (id) => {
-  const index = devices.findIndex((device) => {
-    return device.id === id
+  const index = todos.findIndex((todo) => {
+    return todo.id === id
   })
 
-  devices.splice(index, 1)
+  todos.splice(index, 1)
 }
 
 
@@ -40,21 +41,21 @@ const removeItem = (id) => {
         <form class="px-10 py-12 bg-white shadow-sm">
             <section class="flex">
                 <input type="text" placeholder="做點重要的事吧..." class="w-full text-2xl focus:outline-none input-lg input input-bordered" 
-                v-model="device" />
-                <button class="text-xl btn-lg btn btn-neutral" @click.prevent="addDevice" >新增</button>
+                v-model="todo" />
+                <button class="text-xl btn-lg btn btn-neutral" @click.prevent="addtodo" >新增</button>
             </section>
         </form>
         
         <section class="px-10 py-6 mt-4 bg-white">
             <header>
-            <DeviceInfo :devices="devices" />
+            <todoInfo :todos="todos" />
             </header>
 
             <ul>
-            <DeviceItem
+            <todoItem
                 @remove-auo-item="removeItem"
-                v-for="d in devices"
-                :device="d"
+                v-for="d in todos"
+                :todo="d"
             />
             </ul>
         </section>

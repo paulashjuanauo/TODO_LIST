@@ -1,6 +1,7 @@
 <script setup>
+import imgUrl from '@/assets/images/delete.png'
 const props = defineProps({
-  device: {
+  todo: {
     type: Object,
     required: true,
   },
@@ -9,14 +10,32 @@ const props = defineProps({
 const emits = defineEmits(["remove-auo-item"])
 
 const remove = () => {
-  emits("remove-auo-item", props.device.id)
+  emits("remove-auo-item", props.todo.id)
 }
 </script>
 
 <template>
   <li
-    class="px-10 py-12 bg-white">
-    {{ device.title }}
-    <button class="px-2 py-1 text-white bg-black" @click="remove">X</button>
+    class="flex items-center justify-between py-6 border-b">
+    <div class="flex item-center gap-3">
+      <input type="checkbox"  class="checkbox" v-model="todo.completed" :id="todo.id"/>
+      <label class="text-xl cursor-pointer" :class="{'completed':todo.completed}">{{ todo.title }}</label>
+     
+    </div>
+    <div>
+      <button class="px-2 py-1 text-white" @click="remove"><img :src="imgUrl" alt=""  class="w-6 h-6"></button>
+    </div>
+    
+
+
+
+
+
   </li>
 </template>
+
+<style>
+  .completed {
+    text-decoration: line-through
+  }
+</style>
